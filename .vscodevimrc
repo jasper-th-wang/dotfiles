@@ -1,0 +1,69 @@
+Plug 'tpope/vim-surround'
+Plug 'preservim/nerdtree'
+Plug 'machakann/vim-highlightedyank'
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set smartindent
+
+set scrolloff=8
+" Set leader key
+let mapleader = " "
+
+" Enable relative line numbers
+set relativenumber
+
+" Insert mode mapping for 'jj' to escape
+inoremap jj <Esc>
+
+" Visual mode mapping to delete and paste without overwriting the clipboard
+xnoremap <leader>p "_dP
+
+" Normal and visual mode mappings to yank to the system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+
+" Normal mode mapping to yank entire line to the system clipboard
+nnoremap <leader>Y "+Y
+
+" Normal and visual mode mappings to delete without overwriting the clipboard
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" Normal mode mappings to scroll half page and recenter
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Normal mode mappings for quick line insertion above and below
+nnoremap <leader>o o<Esc>k
+nnoremap <leader>O O<Esc>j
+
+" Normal mode mapping to copy the current file's directory path to the clipboard
+nnoremap <leader>l :let @*=expand("%:p:h")<CR>
+
+
+" NERDTree
+" Normal mode mapping to focus on NERDTree
+nnoremap <leader>n :NERDTreeFocus<CR>
+
+" Normal mode mapping to toggle NERDTree
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" Normal mode mapping to find the current file in NERDTree
+nnoremap <C-f> :NERDTreeFind<CR>
+
+nmap <leader>rn <Action>(RenameElement)
+xmap <leader>rr <Action>(RefactoringMenu)
+
+
+nnoremap ]x :action GotoNextError<CR>
+nnoremap [x :action GotoPreviousError<CR>
+
+" Add semi colon in the end
+inoremap ;; <C-o>A;<Esc>
+
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
