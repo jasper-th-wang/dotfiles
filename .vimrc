@@ -1,4 +1,5 @@
 packadd! everforest
+packloadall | silent! helptags ALL
 
 set tabstop=4
 set softtabstop=4
@@ -87,3 +88,16 @@ let g:everforest_better_performance = 1
 
 colorscheme everforest
 
+" ALE config
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\   'python': ['black'],
+\}
+let g:ale_completion_enabled = 1
+" let g:ale_set_balloons = 1
+let g:ale_hover_to_preview = 1
+nnoremap <leader>gd :ALEGoToDefinition<CR>
+nnoremap <leader>ca :ALECodeAction<CR>
+vnoremap <leader>ca :ALECodeAction<CR>
