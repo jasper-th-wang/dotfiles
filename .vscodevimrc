@@ -1,7 +1,3 @@
-Plug 'tpope/vim-surround'
-Plug 'preservim/nerdtree'
-Plug 'machakann/vim-highlightedyank'
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -43,24 +39,6 @@ nnoremap <leader>O O<Esc>j
 
 " Normal mode mapping to copy the current file's directory path to the clipboard
 nnoremap <leader>l :let @*=expand("%:p:h")<CR>
-
-
-" NERDTree
-" Normal mode mapping to focus on NERDTree
-nnoremap <leader>n :NERDTreeFocus<CR>
-
-" Normal mode mapping to toggle NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
-
-" Normal mode mapping to find the current file in NERDTree
-nnoremap <C-f> :NERDTreeFind<CR>
-
-nmap <leader>rn <Action>(RenameElement)
-xmap <leader>rr <Action>(RefactoringMenu)
-
-
-nnoremap ]x :action GotoNextError<CR>
-nnoremap [x :action GotoPreviousError<CR>
 
 " Add semi colon in the end
 inoremap ;; <C-o>A;<Esc>
