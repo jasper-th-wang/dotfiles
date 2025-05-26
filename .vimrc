@@ -6,6 +6,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-obsession'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -13,6 +14,7 @@ Plug 'sainnhe/everforest'
 Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
  
 call plug#end()
  
@@ -61,6 +63,16 @@ nnoremap [b :bp<CR>
 nnoremap ]b :bn<CR>
 " Keymap to append a semicolon in insert mode and return to normal mode
 inoremap ;; <C-o>A;<Esc>
+" Open quickfix at bottom of all windows
+noremap <leader>q :botright copen<cr>
+" Close Quickfix
+noremap <leader>Q :cclose<cr>
+nmap <silent><nowait> [q :cprev<Cr>
+nmap <silent><nowait> ]q :cnext<Cr>
+" Git mappings
+command! Gcc call feedkeys(':Git commit -m ""' . "\<Left>")
+command! Gcr call feedkeys(':Git commit -m "refactor"' . "\<Left>")
+
 
 " Configuring Netrw
 let g:netrw_liststyle=3
@@ -70,7 +82,7 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-docker', 'coc-eslint', 'coc-yaml', 'coc-class-css', 'coc-go', 'coc-golines', 'coc-vimlsp']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-docker', 'coc-eslint', 'coc-yaml', 'coc-go', 'coc-golines', 'coc-vimlsp', 'coc-sourcekit', 'coc-pairs', 'coc-snippets']
 
 " Undotree mappings
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -157,8 +169,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
  
 " Formatting selected code
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>ff  <Plug>(coc-format)
  
 augroup mygroup
   autocmd!
@@ -243,6 +255,9 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" Mappings for vim-go
+autocmd BufEnter *.go nmap <leader>gg  <Plug>(go-test)
  
 " THEME
 " Important!!
