@@ -82,7 +82,17 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-docker', 'coc-eslint', 'coc-yaml', 'coc-go', 'coc-golines', 'coc-vimlsp', 'coc-sourcekit', 'coc-pairs', 'coc-snippets']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets']
+
+" This is to import settings only pertain to my personal machine.
+" NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
+" that's why the pathing reference to '.vim-personal-machine' will be reached.
+" In other scenario, like public machines, I tend to copy this vimrc file,
+" and place it in my $USER directory, hence '.vim-personal-machine' will not be
+" reached.
+if filereadable(expand('~/.vim/.vim-personal-machine'))
+    let g:coc_global_extensions += ['coc-sourcekit', 'coc-docker', 'coc-go', 'coc-golines']
+endif
 
 " Undotree mappings
 nnoremap <leader>u :UndotreeToggle<CR>
