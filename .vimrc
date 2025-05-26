@@ -15,6 +15,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Personal machine only plugins
+if filereadable(expand('~/.vim/.vim-personal-machine'))
+    Plug 'yaegassy/coc-astro', {'do': 'yarn install --frozen-lockfile'}
+endif
+
  
 call plug#end()
  
