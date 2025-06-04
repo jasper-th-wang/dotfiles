@@ -15,6 +15,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'itchyny/lightline.vim'
 
 " Personal machine only plugins
 if filereadable(expand('~/.vim/.vim-personal-machine'))
@@ -97,6 +98,31 @@ let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets']
+
+" Configuring lightline
+" coc-git integration
+let g:lightline = {
+            \ 'active': {
+            \   'left': [
+            \     [ 'mode', 'paste' ],
+            \     [ 'ctrlpmark', 'git', 'diagnostic', 'cocstatus', 'filename', 'method' ]
+            \   ],
+            \   'right':[
+            \     [ 'filetype', 'fileencoding', 'lineinfo', 'percent' ],
+            \     [ 'blame' ]
+            \   ],
+            \ },
+            \ 'component_function': {
+            \   'blame': 'LightlineGitBlame',
+            \ },
+            \ 'colorscheme' : 'everforest'
+            \ }
+
+function! LightlineGitBlame() abort
+  let blame = get(b:, 'coc_git_blame', '')
+  " return blame
+  return winwidth(0) > 120 ? blame : ''
+endfunction
 
 " This is to import settings only pertain to my personal machine.
 " NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
