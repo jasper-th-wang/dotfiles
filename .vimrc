@@ -96,7 +96,7 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-git']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets']
 
 " This is to import settings only pertain to my personal machine.
 " NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
