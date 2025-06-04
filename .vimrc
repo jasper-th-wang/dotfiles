@@ -70,11 +70,19 @@ nnoremap ]b :bn<CR>
 " Keymap to append a semicolon in insert mode and return to normal mode
 inoremap ;; <C-o>A;<Esc>
 " Open quickfix at bottom of all windows
-noremap <leader>q :botright copen<cr>
+noremap <leader>qq :botright copen<cr>
 " Close Quickfix
-noremap <leader>Q :cclose<cr>
+noremap <leader>QQ :cclose<cr>
+" Clear Quickfix
+noremap <leader>qc :cexpr[]<cr>
 nmap <silent><nowait> [q :cprev<Cr>
 nmap <silent><nowait> ]q :cnext<Cr>
+
+" Alias for open new tab
+command Tn tabnew
+command Tc tabclose
+
+
 " Git mappings
 command! Gcc call feedkeys(':Git commit -m ""' . "\<Left>")
 command! Gcr call feedkeys(':Git commit -m "refactor"' . "\<Left>")
@@ -88,7 +96,7 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-git']
 
 " This is to import settings only pertain to my personal machine.
 " NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
@@ -98,6 +106,20 @@ let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prett
 " reached.
 if filereadable(expand('~/.vim/.vim-personal-machine'))
     let g:coc_global_extensions += ['coc-sourcekit', 'coc-docker', 'coc-go', 'coc-golines']
+endif
+
+" Configuring Undotree
+if has("persistent_undo")
+   let target_path = expand('~/.undodir')
+
+    " create the directory and any parent directories
+    " if the location does not exist.
+    if !isdirectory(target_path)
+        call mkdir(target_path, "p", 0700)
+    endif
+
+    let &undodir=target_path
+    set undofile
 endif
 
 " Undotree mappings
