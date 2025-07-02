@@ -78,6 +78,20 @@ noremap <leader>QQ :cclose<cr>
 noremap <leader>qc :cexpr[]<cr>
 nmap <silent><nowait> [q :cprev<Cr>
 nmap <silent><nowait> ]q :cnext<Cr>
+" Folding
+" nnoremap zs :setlocal foldmethod=syntax<CR>
+function! ToggleFugitiveFolds()
+    if &l:foldmethod == 'syntax'
+        setlocal foldmethod=manual
+        normal! zE
+        echo "Folds: manual (all folds cleared)"
+    else
+        setlocal foldmethod=syntax
+        echo "Folds: syntax"
+    endif
+endfunction
+
+nnoremap zs :call ToggleFugitiveFolds()<CR>
 
 " Alias for open new tab
 command Tn tabnew
@@ -87,6 +101,12 @@ command Tc tabclose
 " Git mappings
 command! Gcc call feedkeys(':Git commit -m ""' . "\<Left>")
 command! Gcr call feedkeys(':Git commit -m "refactor"' . "\<Left>")
+command! Gca :Git commit --amend
+" See https://dpwright.com/posts/2018/04/06/graphical-log-with-vimfugitive/
+command -nargs=* Glg Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local <args>
+
+
+au! BufNewFile,BufRead *.tmpl set filetype=html
 
 
 " Configuring Netrw
