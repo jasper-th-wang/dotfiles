@@ -9,6 +9,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-obsession'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/gv.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'sainnhe/everforest'
 Plug 'airblade/vim-gitgutter'
@@ -73,7 +74,7 @@ inoremap ;; <C-o>A;<Esc>
 " Open quickfix at bottom of all windows
 noremap <leader>qq :botright copen<cr>
 " Close Quickfix
-noremap <leader>QQ :cclose<cr>
+noremap <leader>Q :cclose<cr>
 " Clear Quickfix
 noremap <leader>qc :cexpr[]<cr>
 nmap <silent><nowait> [q :cprev<Cr>
@@ -104,6 +105,7 @@ command! Gcr call feedkeys(':Git commit -m "refactor"' . "\<Left>")
 command! Gca :Git commit --amend
 " See https://dpwright.com/posts/2018/04/06/graphical-log-with-vimfugitive/
 command -nargs=* Glg Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local <args>
+command -nargs=* Glgr Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=relative <args>
 
 
 au! BufNewFile,BufRead *.tmpl set filetype=html
@@ -172,10 +174,11 @@ endif
 nnoremap <leader>u :UndotreeToggle<CR>
 
 " fzf mappings
-nnoremap <leader>tt :Files<Cr>
-nnoremap <leader>tm :Marks<Cr>
-nnoremap <leader>tr :RG<Cr>
-nnoremap <leader><leader> :Buffers<Cr>
+nnoremap <leader>ff :Files<Cr>
+nnoremap <leader>fg :GFiles<Cr>
+nnoremap <leader>fm :Marks<Cr>
+nnoremap <leader>fr :RG<Cr>
+nnoremap <leader>fb :Buffers<Cr>
  
 " coc mappings
 " https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
@@ -254,7 +257,7 @@ nmap <leader>rn <Plug>(coc-rename)
  
 " Formatting selected code
 " xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>ff  <Plug>(coc-format)
+nmap <leader>fa  <Plug>(coc-format)
  
 augroup mygroup
   autocmd!
