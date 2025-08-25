@@ -3,6 +3,7 @@ call plug#begin()
 " List your plugins here
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary'
@@ -17,10 +18,17 @@ Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'itchyny/lightline.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'preservim/tagbar'
+
+" SQL stuff
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Personal machine only plugins
 if filereadable(expand('~/.vim/.vim-personal-machine'))
     Plug 'yaegassy/coc-astro', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'wuelnerdotexe/vim-astro'
 endif
 
  
@@ -38,8 +46,14 @@ set scrolloff=8
 let mapleader = " "
 map j gj
 map k gk
+
+" stack: make jump list behave like tag stak
+" view: make sure vim view does not center on the cursor after jumping back
+set jumpoptions="stack,view"
 " Enable relative line numbers
 set relativenumber
+" turn hybrid line numbers on
+:set nu rnu
 " Insert mode mapping for 'jj' to escape
 inoremap jj <Esc>
 " Visual mode mapping to delete and paste without overwriting the clipboard
@@ -59,7 +73,7 @@ nnoremap <C-u> <C-u>zz
 nnoremap <leader>o o<Esc>k
 nnoremap <leader>O O<Esc>j
 " Normal mode mapping to copy the current file's directory path to the clipboard
-nnoremap <leader>l :let @*=expand("%:p:h")<CR>
+nnoremap <leader>lp :let @*=expand("%:p:h")<CR>
 " Visual mode mapping to move selected lines up or down
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -79,6 +93,14 @@ noremap <leader>Q :cclose<cr>
 noremap <leader>qc :cexpr[]<cr>
 nmap <silent><nowait> [q :cprev<Cr>
 nmap <silent><nowait> ]q :cnext<Cr>
+" Open location list at bottom of all windows
+noremap <leader>ll :botright lopen<cr>
+" Close location list
+noremap <leader>L :lclose<cr>
+" Clear location list
+noremap <leader>lc :lexpr[]<cr>
+nmap <silent><nowait> [l :lprev<Cr>
+nmap <silent><nowait> ]l :lnext<Cr>
 " Folding
 " nnoremap zs :setlocal foldmethod=syntax<CR>
 function! ToggleFugitiveFolds()
@@ -98,7 +120,6 @@ nnoremap zs :call ToggleFugitiveFolds()<CR>
 command Tn tabnew
 command Tc tabclose
 
-
 " Git mappings
 command! Gcc call feedkeys(':Git commit -m ""' . "\<Left>")
 command! Gcr call feedkeys(':Git commit -m "refactor"' . "\<Left>")
@@ -107,9 +128,8 @@ command! Gca :Git commit --amend
 command -nargs=* Glg Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=local <args>
 command -nargs=* Glgr Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' --abbrev-commit --date=relative <args>
 
-
+" to trigger html formatter for Golang template
 au! BufNewFile,BufRead *.tmpl set filetype=html
-
 
 " Configuring Netrw
 let g:netrw_liststyle=3
@@ -119,7 +139,7 @@ let g:netrw_liststyle=3
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-db', 'coc-java']
 
 " Configuring lightline
 " coc-git integration
@@ -153,7 +173,8 @@ endfunction
 " and place it in my $USER directory, hence '.vim-personal-machine' will not be
 " reached.
 if filereadable(expand('~/.vim/.vim-personal-machine'))
-    let g:coc_global_extensions += ['coc-sourcekit', 'coc-docker', 'coc-go', 'coc-golines']
+    let g:coc_global_extensions += ['coc-sourcekit', 'coc-docker', 'coc-go', 'coc-golines', 'coc-pyright']
+    let g:astro_typescript = 'enable'
 endif
 
 " Configuring Undotree
@@ -170,6 +191,9 @@ if has("persistent_undo")
     set undofile
 endif
 
+" Configuring vim-dadbod-ui
+autocmd FileType sql setlocal omnifunc=vim_dadbod_completion#omni
+
 " Undotree mappings
 nnoremap <leader>u :UndotreeToggle<CR>
 
@@ -179,6 +203,8 @@ nnoremap <leader>fg :GFiles<Cr>
 nnoremap <leader>fm :Marks<Cr>
 nnoremap <leader>fr :RG<Cr>
 nnoremap <leader>fb :Buffers<Cr>
+nnoremap <leader>ft :Tags<Cr>
+nnoremap <leader>fc :Commits<Cr>
  
 " coc mappings
 " https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
@@ -257,7 +283,7 @@ nmap <leader>rn <Plug>(coc-rename)
  
 " Formatting selected code
 " xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>fa  <Plug>(coc-format)
+nmap <leader>mp  <Plug>(coc-format)
  
 augroup mygroup
   autocmd!
@@ -345,7 +371,10 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " Mappings for vim-go
 autocmd BufEnter *.go nmap <leader>gg  <Plug>(go-test)
- 
+
+" Mappings for tagbar
+nmap <leader>t :TagbarToggle<CR>
+
 " THEME
 " Important!!
 if has('termguicolors')
