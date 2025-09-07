@@ -1,5 +1,6 @@
 call plug#begin()
  
+" List your plugins here
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
@@ -19,12 +20,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'itchyny/lightline.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'preservim/tagbar'
-
-" Alternative lsp for Swift
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " SQL stuff
 Plug 'tpope/vim-dadbod'
@@ -122,8 +117,8 @@ endfunction
 nnoremap zs :call ToggleFugitiveFolds()<CR>
 
 " Alias for open new tab
-command! Tn tabnew
-command! Tc tabclose
+command Tn tabnew
+command Tc tabclose
 
 " Git mappings
 command! Gcc call feedkeys(':Git commit -m ""' . "\<Left>")
@@ -142,6 +137,9 @@ let g:netrw_liststyle=3
 " Configuring vim-vinegar
 " Get line number on vim vinegar
 let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
+
+" Configuring Coc
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-db', 'coc-java']
 
 " Configuring lightline
 " coc-git integration
@@ -167,6 +165,17 @@ function! LightlineGitBlame() abort
   " return blame
   return winwidth(0) > 120 ? blame : ''
 endfunction
+
+" This is to import settings only pertain to my personal machine.
+" NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
+" that's why the pathing reference to '.vim-personal-machine' will be reached.
+" In other scenario, like public machines, I tend to copy this vimrc file,
+" and place it in my $USER directory, hence '.vim-personal-machine' will not be
+" reached.
+if filereadable(expand('~/.vim/.vim-personal-machine'))
+    let g:coc_global_extensions += ['coc-docker', 'coc-go', 'coc-golines', 'coc-pyright']
+    let g:astro_typescript = 'enable'
+endif
 
 " Configuring Undotree
 if has("persistent_undo")
@@ -197,21 +206,6 @@ nnoremap <leader>fb :Buffers<Cr>
 nnoremap <leader>ft :Tags<Cr>
 nnoremap <leader>fc :Commits<Cr>
  
-
-" [[ COC.nvim ]]
-" Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-db', 'coc-java']
-
-" This is to import settings only pertain to my personal machine.
-" NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
-" that's why the pathing reference to '.vim-personal-machine' will be reached.
-" In other scenario, like public machines, I tend to copy this vimrc file,
-" and place it in my $USER directory, hence '.vim-personal-machine' will not be
-" reached.
-if filereadable(expand('~/.vim/.vim-personal-machine'))
-    let g:coc_global_extensions += ['coc-docker', 'coc-go', 'coc-golines', 'coc-pyright']
-    let g:astro_typescript = 'enable'
-endif
 " coc mappings
 " https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
 let g:coc_default_semantic_highlight_groups = 1
@@ -380,68 +374,6 @@ autocmd BufEnter *.go nmap <leader>gg  <Plug>(go-test)
 
 " Mappings for tagbar
 nmap <leader>t :TagbarToggle<CR>
-
-" LSP Set up for Swift & Source kit
-" Configuring vim-lsp
-" 
-if executable('sourcekit-lsp')
-    " pip install python-lsp-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'sourcekit-lsp',
-        \ 'cmd': {server_info->['sourcekit-lsp']},
-        \ 'allowlist': ['swift'],
-        \ })
-endif
-
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
-
-    let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-    
-    " refer to doc to add more commands
-endfunction
-
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-function! s:setup_swift_lsp()
-    execute "silent! CocDisable"
-    execute "silent! lsp#enable()"
-    inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-endfunction
-
-function! s:teardown_swift_lsp()
-    execute "silent! CocEnable"
-    execute "silent! lsp#disable()"
-
-endfunction
-
-" Below is to disable Coc for swift, since coc-sourcekit is deprecated
-augroup SwiftCocGroup
-  autocmd!
-  autocmd BufNew,BufRead *.swift call s:setup_swift_lsp()
-  autocmd BufLeave *.swift call s:teardown_swift_lsp()
-augroup end
-
 
 " THEME
 " Important!!
