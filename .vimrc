@@ -12,6 +12,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
 Plug 'sainnhe/everforest'
 Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
@@ -345,6 +346,19 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
  
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+" Configuring ALE
+"
+" let g:o
+" Configuring ALE
+let g:ale_floating_preview = 0
+let g:ale_completion_enabled = 0
+let g:ale_fix_on_save = 0
+nmap <silent> [a <Plug>(ale_previous_wrap)
+nmap <silent> ]a <Plug>(ale_next_wrap)
+let g:ale_pattern_options = {
+            \   '\.s$': {'ale_enabled': 0},
+            \}
  
 " Add (Neo)Vim's native statusline support
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
