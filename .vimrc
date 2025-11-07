@@ -5,7 +5,7 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-vinegar'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-obsession'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -131,13 +131,6 @@ command -nargs=* Glgr Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' -
 
 " to trigger html formatter for Golang template
 au! BufNewFile,BufRead *.tmpl set filetype=html
-
-" Configuring Netrw
-let g:netrw_liststyle=3
-
-" Configuring vim-vinegar
-" Get line number on vim vinegar
-let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 " Configuring Coc
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-db', 'coc-java']
@@ -347,9 +340,12 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-" Configuring ALE
-"
-" let g:o
+" Configuring NERDTree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
 " Configuring ALE
 let g:ale_floating_preview = 0
 let g:ale_completion_enabled = 0
