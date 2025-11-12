@@ -1,5 +1,6 @@
 (defcfg
   process-unmapped-keys yes
+  movemouse-inherit-accel-state yes
 )
 
 ;; Empty template
@@ -23,23 +24,13 @@
 )
 
 
-;; (defsrc
-;;   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 ;; done
-;;   caps ;; done
-;;   g ;; done
-;;   h ;; done
-;;   y u i o
-;;   j k l ; '
-;;   b n m ,
-;;   q w e r t
-;;   a s d f
-;;   z ;; done
-;;   spc ;; done
-;; )
-
 (defvar
       tap-time 100
       hold-time 200
+      mw-initial-v 3
+      mw-maximum-v 1200
+      mw-accel 1.15
+      mw-decel 0.93
 )
 
 (defalias
@@ -49,6 +40,18 @@
       navz (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
       law (macro - S-.)
       ltaw (macro = S-.)
+      ms↑ (movemouse-up 1 1)
+      ms← (movemouse-left 1 1)
+      ms↓ (movemouse-down 1 1)
+      ms→ (movemouse-right 1 1)
+      ma↑ (movemouse-accel-up 1 1000 1 5)
+      ma← (movemouse-accel-left 1 1000 1 5)
+      ma↓ (movemouse-accel-down 1 1000 1 5)
+      ma→ (movemouse-accel-right 1 1000 1 5)
+      fst (movemouse-speed 200)
+      slw (movemouse-speed 50)
+      mwu (mwheel-up 50 5)
+      mwd (mwheel-down 50 5)
 )
 
 (deflayer default
@@ -60,34 +63,6 @@
   _     _     _     _                 @num              _     _     _    _ _    _
 )
 
-;; (deflayer default
-;;   brdn brup mctl sls dtn dnd prev pp next mute vold volu
-;;   lctl
-;;   @symb-g
-;;   @symb-h
-;;   _ _ _ _
-;;   _ _ _ _ _
-;;   _ _ _ _
-;;   _ _ _ _ _
-;;   _ _ _ _
-;;   @nav-z
-;;   @num-spc
-;; )
-
-;; (deflayer symbols DONE!
-;;   _ _ _ _ _ _ _ _ _ _ _ _
-;;   _
-;;   S-5 DONE
-;;   S-1 DONE
-;;   S-6 S-{ S-} = DONE
-;;   S-9 S-0 @larrow @lthickarrow _ DONE
-;;   A-bspc bspc [ ] DONE
-;;   \ S-grv S-- S-7 - DONE
-;;   / S-8 - S-= DONE
-;;   _
-;;   _
-;; )
-
 
 (deflayer symbols
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
@@ -98,20 +73,6 @@
   _     _     _     _                 _                 _     _     _    _ _    _
 )
 
-;; (deflayer numbers
-;;   _ _ _ _ _ _ _ _ _ _ _ _
-;;   _
-;;   5
-;;   6
-;;   _ _ _ _
-;;   7 8 9 0 -
-;;   _ _ _ _
-;;   _ _ _ _ _
-;;   1 2 3 4
-;;   _
-;;   _
-;; )
-
 (deflayer numbers
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
@@ -121,25 +82,11 @@
   _     _     _     _                 _                 _     _     _    _ _    _
 )
 
-;; (deflayer navigation
-;;   _ _ _ _ _ _ _ _ _ _ _ _
-;;   _
-;;   _
-;;   left
-;;   _ _ _ _
-;;   down up right _ _
-;;   _ _ _ _
-;;   _ _ _ _ _
-;;   _ _ _ _
-;;   _
-;;   _
-;; )
-
 (deflayer navigation
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     _     _     _     left  down  up    right _     _     _     _
-  _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     _                 _                 _     _     _    _ _    _
+  _     _     _     _     _     _     left  down  up    right @mwu  @mwd   _     _
+  _     _     @fst  @slw  _     mrtp  @ma←  @ma↓  @ma↑  @ma→  _     _
+  _     _     _     _                 mlft              _     _     _    _ _    _
 )
