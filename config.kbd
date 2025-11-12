@@ -2,19 +2,40 @@
   process-unmapped-keys yes
 )
 
+;; Empty template
+;; (deflayer base
+;;   _     _     _     _     _     _     _     _     _     _     _     _     _ 
+;;   _     _     _     _     _     _     _     _     _     _     _     _     _     _
+;;   _     _     _     _     _     _     _     _     _     _     _     _     _
+;;   _     _     _     _     _     _     _     _     _     _     _     _     _     _
+;;   _     _     _     _     _     _     _     _     _     _     _     _
+;;   _     _     _     _                 _                 _     _     _    _ _    _
+;; )
+
+
 (defsrc
-  f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
-  caps
-  g
-  h
-  y u i o
-  j k l ; '
-  b n m ,
-  q w e r t
-  a s d f
-  z
-  spc
+  esc    f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12
+  grv    1     2     3     4     5     6     7     8     9     0     -     =     bspc
+  tab    q     w     e     r     t     y     u     i     o     p     [     ]
+  caps   a     s     d     f     g     h     j     k     l     ;     '     \     ret
+  lsft   z     x     c     v     b     n     m     ,     .     /     rsft
+  fn     lctl  lalt  lmet              spc               rmet  ralt  ◀    ▲ ▼    ▶  
 )
+
+
+;; (defsrc
+;;   f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12 ;; done
+;;   caps ;; done
+;;   g ;; done
+;;   h ;; done
+;;   y u i o
+;;   j k l ; '
+;;   b n m ,
+;;   q w e r t
+;;   a s d f
+;;   z ;; done
+;;   spc ;; done
+;; )
 
 (defvar
       tap-time 100
@@ -22,66 +43,103 @@
 )
 
 (defalias
-      symb-g (tap-hold-release $tap-time $hold-time g (layer-toggle symbols))
-      symb-h (tap-hold-release $tap-time $hold-time h (layer-toggle symbols))
-      num-spc (tap-hold-release $tap-time $hold-time spc (layer-toggle numbers))
-      nav-z (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
-      larrow (macro - S-.)
-      lthickarrow (macro = S-.)
+      symg (tap-hold-release $tap-time $hold-time g (layer-toggle symbols))
+      symh (tap-hold-release $tap-time $hold-time h (layer-toggle symbols))
+      num (tap-hold-release $tap-time $hold-time spc (layer-toggle numbers))
+      navz (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
+      law (macro - S-.)
+      ltaw (macro = S-.)
 )
 
 (deflayer default
-  brdn brup mctl sls dtn dnd prev pp next mute vold volu
-  lctl
-  @symb-g
-  @symb-h
-  _ _ _ _
-  _ _ _ _ _
-  _ _ _ _
-  _ _ _ _ _
-  _ _ _ _
-  @nav-z
-  @num-spc
+  _     brdn  brup  mctl  sls   dtn   dnd   prev  pp    next  mute  vold  volu 
+  _     XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    _     _ ;; number row disabled to train using number layers
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  lctl  _     _     _     _     @symg @symh _     _     _     _     _     _     _
+  _     @navz _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 @num              _     _     _    _ _    _
 )
+
+;; (deflayer default
+;;   brdn brup mctl sls dtn dnd prev pp next mute vold volu
+;;   lctl
+;;   @symb-g
+;;   @symb-h
+;;   _ _ _ _
+;;   _ _ _ _ _
+;;   _ _ _ _
+;;   _ _ _ _ _
+;;   _ _ _ _
+;;   @nav-z
+;;   @num-spc
+;; )
+
+;; (deflayer symbols DONE!
+;;   _ _ _ _ _ _ _ _ _ _ _ _
+;;   _
+;;   S-5 DONE
+;;   S-1 DONE
+;;   S-6 S-{ S-} = DONE
+;;   S-9 S-0 @larrow @lthickarrow _ DONE
+;;   A-bspc bspc [ ] DONE
+;;   \ S-grv S-- S-7 - DONE
+;;   / S-8 - S-= DONE
+;;   _
+;;   _
+;; )
+
 
 (deflayer symbols
-  _ _ _ _ _ _ _ _ _ _ _ _
-  _
-  S-5
-  S-1
-  S-6 S-{ S-} =
-  S-9 S-0 @larrow @lthickarrow _
-  A-bspc bspc [ ]
-  \ S-grv S-- S-7 -
-  / S-8 - S-=
-  _
-  _
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     \     S-grv S--   S-7   -     S-6   S-{   S-}   =     _     _     _
+  _     /     S-8   -     S-=   S-5   S-1   S-9   S-0   @law  @ltaw _     _     _
+  _     _     _     _     _    A-bspc bspc  [     ]     _     _     _
+  _     _     _     _                 _                 _     _     _    _ _    _
 )
+
+;; (deflayer numbers
+;;   _ _ _ _ _ _ _ _ _ _ _ _
+;;   _
+;;   5
+;;   6
+;;   _ _ _ _
+;;   7 8 9 0 -
+;;   _ _ _ _
+;;   _ _ _ _ _
+;;   1 2 3 4
+;;   _
+;;   _
+;; )
 
 (deflayer numbers
-  _ _ _ _ _ _ _ _ _ _ _ _
-  _
-  5
-  6
-  _ _ _ _
-  7 8 9 0 -
-  _ _ _ _
-  _ _ _ _ _
-  1 2 3 4
-  _
-  _
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     1     2     3     4     5     6     7     8     9     0     -     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 _                 _     _     _    _ _    _
 )
 
+;; (deflayer navigation
+;;   _ _ _ _ _ _ _ _ _ _ _ _
+;;   _
+;;   _
+;;   left
+;;   _ _ _ _
+;;   down up right _ _
+;;   _ _ _ _
+;;   _ _ _ _ _
+;;   _ _ _ _
+;;   _
+;;   _
+;; )
+
 (deflayer navigation
-  _ _ _ _ _ _ _ _ _ _ _ _
-  _
-  _
-  left
-  _ _ _ _
-  down up right _ _
-  _ _ _ _
-  _ _ _ _ _
-  _ _ _ _
-  _
-  _
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     left  down  up    right _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _                 _                 _     _     _    _ _    _
 )
