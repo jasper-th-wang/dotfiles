@@ -38,6 +38,7 @@
       symh (tap-hold-release $tap-time $hold-time h (layer-toggle symbols))
       num (tap-hold-release $tap-time $hold-time spc (layer-toggle numbers))
       navz (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
+      moux (tap-hold-release $tap-time $hold-time x (layer-toggle mouse))
       law (macro - S-.)
       ltaw (macro = S-.)
       ms↑ (movemouse-up 1 1)
@@ -52,14 +53,16 @@
       slw (movemouse-speed 50)
       mwu (mwheel-up 50 5)
       mwd (mwheel-down 50 5)
+      mwl (mwheel-left 50 120)
+      mwr (mwheel-right 50 120)
 )
 
 (deflayer default
   _     brdn  brup  mctl  sls   dtn   dnd   prev  pp    next  mute  vold  volu 
-  _     XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    _     _ ;; number row disabled to train using number layers
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
   lctl  _     _     _     _     @symg @symh _     _     _     _     _     _     _
-  _     @navz _     _     _     _     _     _     _     _     _     _
+  _     @navz @moux _     _     _     _     _     _     _     _     _
   _     _     _     _                 @num              _     _     _    _ _    _
 )
 
@@ -69,7 +72,7 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     \     S-grv S--   S-7   -     S-6   S-{   S-}   =     _     _     _
   _     /     S-8   -     S-=   S-5   S-1   S-9   S-0   @law  @ltaw _     _     _
-  _     _     _     _     _    A-bspc bspc  [     ]     _     _     _
+  _     _     _     _     _     _     _     [     ]     _     _     _
   _     _     _     _                 _                 _     _     _    _ _    _
 )
 
@@ -85,8 +88,17 @@
 (deflayer navigation
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     _     _     _     left  down  up    right @mwu  @mwd   _     _
-  _     _     @fst  @slw  _     mrtp  @ma←  @ma↓  @ma↑  @ma→  _     _
+  _     _     _     _     _     _     _    bspc A-bspc esc   _     _     _
+  _     _     _     _     _     _     left  down  up    right _     _     _     _
+  _     _     lalt  lmet  _     _     _     _     _     _     _     _
+  _     _     _     _                 _                 _     _     _    _ _    _
+)
+
+(deflayer mouse
+  _     _     _     _     _     _     _     _     _     _     _     _     _ 
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     @mwl  @mwu  @mwd  @mwr  _     _
+  _     _     _     _     _     mrtp  @ma←  @ma↓  @ma↑  @ma→  _     _     _     _
+  _     @fst  _     @slw  _     _     _     _     _     _     _     _
   _     _     _     _                 mlft              _     _     _    _ _    _
 )
