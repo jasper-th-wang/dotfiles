@@ -39,6 +39,8 @@
       num (tap-hold-release $tap-time $hold-time spc (layer-toggle numbers))
       navz (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
       moux (tap-hold-release $tap-time $hold-time x (layer-toggle mouse))
+      moub (layer-switch mouse)
+      moun (layer-switch default)
       law (macro - S-.)
       ltaw (macro = S-.)
       ms↑ (movemouse-up 1 1)
@@ -55,6 +57,7 @@
       mwd (mwheel-down 50 5)
       mwl (mwheel-left 50 120)
       mwr (mwheel-right 50 120)
+      rel (tap-dance 200 (XX XX lrld)) ;; live reload
 )
 
 (deflayer default
@@ -72,7 +75,7 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     \     S-grv S--   S-7   -     S-6   S-{   S-}   =     _     _     _
   _     /     S-8   -     S-=   S-5   S-1   S-9   S-0   @law  @ltaw _     _     _
-  _     _     _     _     _     _     _     [     ]     _     _     _
+  _     _     _     _    A-bspc _     bspc  [     ]     _     _     _
   _     _     _     _                 _                 _     _     _    _ _    _
 )
 
@@ -88,17 +91,17 @@
 (deflayer navigation
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     _     _     _     _    bspc A-bspc esc   _     _     _
-  _     _     _     _     _     _     left  down  up    right _     _     _     _
+  _     _     _     _     _     _     _     pgup  _     esc   _     _     _
+  _     _     _     pgdn  _     _     left  down  up    right _     _     _     _
   _     _     lalt  lmet  _     _     _     _     _     _     _     _
   _     _     _     _                 _                 _     _     _    _ _    _
 )
 
 (deflayer mouse
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
-  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     @rel  _     _     _
   _     _     _     _     _     _     _     @mwl  @mwu  @mwd  @mwr  _     _
   _     _     _     _     _     mrtp  @ma←  @ma↓  @ma↑  @ma→  _     _     _     _
-  _     @fst  _     @slw  _     _     _     _     _     _     _     _
+  _     @fst  _     @slw  _     @moub @moun _     _     _     _     _
   _     _     _     _                 mlft              _     _     _    _ _    _
 )
