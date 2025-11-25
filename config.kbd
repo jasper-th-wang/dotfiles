@@ -35,6 +35,7 @@
 
 (defalias
       cmdbs (tap-hold-release $tap-time $hold-time bspc lmet)
+      lesc (tap-hold-release $tap-time $hold-time esc lctl)
       symg (tap-hold-release $tap-time $hold-time g (layer-toggle symbols))
       symh (tap-hold-release $tap-time $hold-time h (layer-toggle symbols))
       navz (tap-hold-release $tap-time $hold-time z (layer-toggle navigation))
@@ -64,7 +65,7 @@
   _     brdn  brup  mctl  sls   dtn   dnd   prev  pp    next  mute  vold  volu 
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  lctl  _     _     _     _     @symg @symh _     _     _     _     _     _     _
+  @lesc _     _     _     _     @symg @symh _     _     _     _     _     _     _
   _     @navz @moux _     _     _     _     _     _     _     _     _
   _     _     _     @cmdbs            _                 _     _     _    _ _    _
 )
