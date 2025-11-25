@@ -26,7 +26,7 @@
 
 (defvar
       tap-time 100
-      hold-time 200
+      hold-time 150
       mw-initial-v 3
       mw-maximum-v 1200
       mw-accel 1.15
@@ -34,7 +34,6 @@
 )
 
 (defalias
-      cmdbs (tap-hold-release $tap-time $hold-time bspc lmet)
       lesc (tap-hold-release $tap-time $hold-time esc lctl)
       symg (tap-hold-release $tap-time $hold-time g (layer-toggle symbols))
       symh (tap-hold-release $tap-time $hold-time h (layer-toggle symbols))
@@ -67,7 +66,7 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _
   @lesc _     _     _     _     @symg @symh _     _     _     _     _     _     _
   _     @navz @moux _     _     _     _     _     _     _     _     _
-  _     _     _     @cmdbs            _                 _     _     _    _ _    _
+  _     _     _     _                 _                 _     _     _    _ _    _
 )
 
 
@@ -92,7 +91,7 @@
 (deflayer mouse
   _     _     _     _     _     _     _     _     _     _     _     _     _ 
   _     _     _     _     _     _     _     _     _     _     @rel  _     _     _
-  _     _     _     _     _     _     _     @mwl  @mwu  @mwd  @mwr  _     _
+  _     _     _     _     _     _     @mwl  @mwu  @mwd  @mwr  _     _     _
   _     _     _     _     _     mrtp  @ma←  @ma↓  @ma↑  @ma→  _     _     _     _
   _     @fst  _     @slw  _     @moub @moun _     _     _     _     _
   _     _     _     _                 mlft              _     _     _    _ _    _
