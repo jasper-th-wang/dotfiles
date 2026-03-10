@@ -12,27 +12,13 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dense-analysis/ale'
 Plug 'sainnhe/everforest'
 Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'itchyny/lightline.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'preservim/tagbar'
-
-" SQL stuff
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui'
-
-" Personal machine only plugins
-if filereadable(expand('~/.vim/.vim-personal-machine'))
-    Plug 'yaegassy/coc-astro', {'do': 'yarn install --frozen-lockfile'}
-    Plug 'wuelnerdotexe/vim-astro'
-endif
-
- 
 call plug#end()
  
 set tabstop=4
@@ -132,9 +118,6 @@ command -nargs=* Glgr Git! log --graph --pretty=format:'%h - (%ad)%d %s <%an>' -
 " to trigger html formatter for Golang template
 au! BufNewFile,BufRead *.tmpl set filetype=html
 
-" Configuring Coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier', 'coc-css', 'coc-html', 'coc-emmet', 'coc-eslint', 'coc-yaml', 'coc-vimlsp', 'coc-pairs', 'coc-snippets', 'coc-db', 'coc-java']
-
 " Configuring lightline
 " coc-git integration
 let g:lightline = {
@@ -159,17 +142,6 @@ function! LightlineGitBlame() abort
   " return blame
   return winwidth(0) > 120 ? blame : ''
 endfunction
-
-" This is to import settings only pertain to my personal machine.
-" NOTE: because on my personal machine, this vimrc is symlinked to $USER directory,
-" that's why the pathing reference to '.vim-personal-machine' will be reached.
-" In other scenario, like public machines, I tend to copy this vimrc file,
-" and place it in my $USER directory, hence '.vim-personal-machine' will not be
-" reached.
-if filereadable(expand('~/.vim/.vim-personal-machine'))
-    let g:coc_global_extensions += ['coc-docker', 'coc-go', 'coc-golines', 'coc-pyright']
-    let g:astro_typescript = 'enable'
-endif
 
 " Configuring Undotree
 if has("persistent_undo")
